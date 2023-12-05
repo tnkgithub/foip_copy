@@ -1,7 +1,7 @@
-# foip
+# foip_copy
 
 ## Description
-FOIP開発用リポジトリ
+FOIP開発用リポジトリ（就活用コピー）
 
 ### Directory
 - backend/
