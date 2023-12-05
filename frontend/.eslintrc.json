@@ -1,0 +1,24 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "sourceType": "module",
+        "project": [
+            "tsconfig.json"
+        ]
+    },
+    "env": {
+        "es6": true,
+        "node": true,
+        "jest": true
+    },
+    "plugins": [
+        "@typescript-eslint",
+        "node",
+        "jest"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react/recommended"
+    ]
+}

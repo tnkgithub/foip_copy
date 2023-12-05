@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  livekitgen:
+    image: livekit/generate
+    container_name: livekitgen
+    entrypoint: "/bin/generate --local" # NOTE: 現状だとローカル用のlivekit.yamlを生成している 本番だとTURN/TLSとかの周りがめんどくさそう
+    volumes:
+      - livekitconf:/output
+  livekitserver:
+    image: livekit/livekit-server
+    container_name: livekit
+    volumes:
+      - livekitconf:/conf
+    entrypoint: "/livekit-server --config /conf/livekit.yaml --node-ip ${LIVEKIT_NODE:-127.0.0.1}"
+    ports:
+      - ${LIVEKIT_PORT:-7880}:7880
+      # - ${LIVEKIT_PORT_TCP:-7881}:7881 # TODO: nginxとwebrtc
+      # - ${LIVEKIT_PORT_UDP:-7882}:7882/udp
+    depends_on:
+      livekitgen:
+        condition: service_completed_successfully
+  coreapi:
+    build: 
+      context: ./backend/core
+    container_name: coreapi-service
+    command: "/usr/local/bin/server --config-path /conf/livekit.yaml"
+    volumes:
+      - livekitconf:/conf
+    ports:
+      - ${CORE_PORT:-8080}:8080
+    depends_on:
+      livekitgen:
+        condition: service_completed_successfully
+  chatapi:
+    build:
+      context: ./backend/chat
+    container_name: chatapi-service
+    ports:
+      - ${CHAT_PORT:-5000}:5000
+  frontend:
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend/proxy:/etc/nginx/templates
+      - ./frontend/dist:/usr/share/nginx/html:ro
+    environment:
+      - BACKEND_CHAT_URL=${CHAT_URL:-http://chatapi-service:5000}
+      - BACKEND_CORE_URL=${CORE_URL:-http://coreapi-service:8080}
+      - LIVEKIT_SERVER_URL=${LIVEKIT_SERVER_URL:-http://livekit:7880}
+    ports:
+      - ${FRONTEND_PORT:-80}:80
+    command: /bin/sh -c "envsubst '$$BACKEND_CHAT_URL$$BACKEND_CORE_URL$$LIVEKIT_SERVER_URL' < /etc/nginx/templates/nginx.conf > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
+    depends_on:
+      - livekitserver
+      - coreapi
+      - chatapi
+volumes:
+  livekitconf:

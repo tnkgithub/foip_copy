@@ -1,0 +1,25 @@
+.Message {
+  border: solid;
+  padding: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.Message-header {
+  display: flex;
+}
+
+.Message-user {
+  text-align: left;
+  flex: 1;
+}
+
+.Message-time {
+  text-align: right;
+  flex: 1;
+}
+
+.Message-body {
+  text-align: left;
+  overflow-wrap: break-word;
+}

@@ -1,0 +1,44 @@
+info:
+  contact: {}
+paths:
+  /api/v1/token:
+    get:
+      description: show API documentation
+      parameters:
+      - description: Room
+        in: query
+        name: room
+        required: true
+        type: string
+      - description: User
+        in: query
+        name: user
+        required: true
+        type: string
+      produces:
+      - text/json
+      responses: {}
+      summary: API Documentation
+      tags:
+      - livekit
+      - user
+  /metrics:
+    get:
+      description: show metrics for prometheus
+      produces:
+      - text/plain
+      responses: {}
+      summary: Metrics for Prometheus
+      tags:
+      - admin
+      - monitoring
+  /swagger/:
+    get:
+      description: show API documentation
+      produces:
+      - text/html
+      responses: {}
+      summary: API Documentation
+      tags:
+      - admin
+swagger: "2.0"

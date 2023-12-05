@@ -1,0 +1,13 @@
+.table-selector {
+  /* width: calc(100% - 400px); */
+  width: 100%;
+  height: 100vh;
+  padding-left: 160px;
+  background-image: url("../../assets/floor.png");
+  background-repeat: repeat;
+  background-size: 300px;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  /* align-items: center; */
+}

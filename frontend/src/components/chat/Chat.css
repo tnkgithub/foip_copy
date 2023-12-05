@@ -1,0 +1,17 @@
+.Chat-space {
+  border: solid;
+  height: 100vh;
+}
+
+.Message-area {
+  /* height: 100px; */
+  /* full height - textfield height - padding bottom - param */
+  height: calc(100vh - 56px - 8px - 4px);
+  padding-bottom: 8px;
+  overflow-y: auto;
+  /* border-bottom: 1px solid #545c8f; */
+}
+
+.Message-send {
+  margin: 0 8px;
+}

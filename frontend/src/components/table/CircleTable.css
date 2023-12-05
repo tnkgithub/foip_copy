@@ -1,0 +1,21 @@
+.circle-table {
+  z-index: 1;
+  width: 277px;
+  height: 280px;
+}
+
+.circle-table > .hovered {
+  position: relative;
+  width: 0;
+  height: 0;
+  right: 4px;
+  bottom: 286px;
+  opacity: 0;
+  z-index: 2;
+  transition-duration: 0.5s;
+}
+
+.circle-table > .hovered:hover {
+  transition-duration: 0.5s;
+  opacity: 1;
+}
